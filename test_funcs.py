@@ -175,3 +175,32 @@ def test_factorial_negativo():
     """ Verifica que la función factorial lance ValueError al recibir un número negativo. """
     with pytest.raises(ValueError, match="n negativo"):
         factorial(-1)
+
+# Testing Ejercicio 8: Media aritmética
+# Usar pytest.approx para comparar floats.
+# Verificar excepción con lista vacía.
+@pytest.mark.parametrize(
+    "nums,resultado_esperado",
+    [
+        ([1, 2, 3, 4, 5], 3.0),
+        ([10, 20, 30], 20.0),
+        ([-1, -2, -3], -2.0),
+        ([0], 0.0),
+        ([1.5, 2.5, 3.5], 2.5)
+    ],
+    ids=[
+        "media_enteros_positivos",
+        "media_enteros_mayores",
+        "media_enteros_negativos",
+        "media_un_elemento",
+        "media_floats"
+    ]
+)
+def test_media_valida(nums, resultado_esperado):
+    """ Verifica el cálculo correcto de la media para listas válidas."""
+    assert media(nums) == pytest.approx(resultado_esperado)
+
+def test_media_lista_vacia():
+    """Verifica que la función media lance ValueError al recibir una lista vacía."""
+    with pytest.raises(ValueError, match="lista vacía"):
+        media([])
