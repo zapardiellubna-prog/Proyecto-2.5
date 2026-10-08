@@ -1,4 +1,14 @@
 import pytest
+from funcs import (
+    contar_palabras,
+    es_palindromo,
+    factorial,
+    filtrar_aprobados,
+    maximo_seguro,
+    media,
+    normalizar_email,
+    sumatoria_positivos,
+)
 
 # Ejercicio 1: Sumatoria de no negativos
 # Asserts con listas vacías, solo negativos, mixtas y solo positivos.
