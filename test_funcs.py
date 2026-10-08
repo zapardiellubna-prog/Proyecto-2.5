@@ -94,3 +94,84 @@ def test_contar_palabras_frase_compleja():
         "divertido": 1,
     }
     assert contar_palabras(texto) == esperado
+
+# Ejercicio 5: Filtrado de aprobados
+# Parametrizar 4 casos distintos.
+# Verificar que se mantiene el orden original.
+@pytest.mark.parametrize("pares, esperado", 
+    [
+        ([("Alice", 6.0), ("Bob", 4.0), ("Charlie", 7.0)], ["Alice", "Charlie"]),
+        ([("David", 5.0), ("Eve", 5.0)], ["David", "Eve"]),
+        ([("Frank", 4.0), ("Grace", 3.0)], []),
+        ([], []),
+    ],
+    ids= ["lista_mixta", "todos_aprobados", "ninguno_aprobado", "lista_vacia"]
+)
+def test_filtrar_aprobados(pares, esperado):
+    assert filtrar_aprobados(pares) == esperado
+
+def test_filtrar_aprobados_orden():
+    """Verifica que filtrar_aprobados mantenga el orden original"""
+    pares = [("Alice", 6.0), ("Bob", 4.0), ("Charlie", 7.0), ("David", 5.0)]
+    esperado = ["Alice", "Charlie", "David"]
+    assert filtrar_aprobados(pares) == esperado
+
+# Testing Ejercicio 6: Normalizar Email
+# Casos válidos e inválidos.
+# Comprobar normalización a minúsculas.
+@pytest.mark.parametrize(
+    "email, resultado_esperado",
+    [
+        ("alice@ejemplo.com", ("alice", "ejemplo.com")),
+        ("BOB@EJEMPLO.COM", ("bob", "ejemplo.com")),
+        ("charlie@subdominio.EJEMPLO.COM", ("charlie", "subdominio.ejemplo.com")),
+        ("Alice@ejemplo.com", ("alice", "ejemplo.com"))
+    ],
+    ids=["email_normal", "email_con_mayusculas", "email_con_dominio_subdominio", "capitalizacion_mixta"]
+)
+def test_normalizar_email(email, resultado_esperado):
+    """Comprueba la normalización a minúsculas en correos electrónicos válidos."""
+    assert normalizar_email(email) == resultado_esperado
+@pytest.mark.parametrize(
+    "email_invalido",
+    [
+        "sin_arroba.com",
+        "usuario@@dominio.com",
+        "usuario@dominio@otro.com",
+        "",
+    ],
+    ids=[
+        "falta_arroba",
+        "arroba_doble_consecutiva",
+        "multiples_arrobas_separadas",
+        "cadena_vacia",
+    ],
+)
+def test_normalizar_email_invalido(email_invalido):
+    """Valida la generación de ValueError cuando la estructura del email no es adecuada."""
+    with pytest.raises(ValueError, match="email inválido"):
+        normalizar_email(email_invalido)
+
+# Testing Ejercicio 7: Factorial iterativo con control de errores
+# Casos (0,1), (1,1), (5,120).
+# Comprobar excepción para valores negativos.
+@pytest.mark.parametrize(
+    "num, resultado_esperado",
+    [
+        (0,1),
+        (1,1),
+        (5,120)
+    ],
+    ids=[
+        "factorial_0",
+        "factorial_1",
+        "factorial_5"
+    ],
+)
+def test_factorial_valido(num, resultado_esperado):
+    """ Verifica el cálculo correcto del factorial para valores válidos."""
+    assert factorial(num) == resultado_esperado
+def test_factorial_negativo():
+    """ Verifica que la función factorial lance ValueError al recibir un número negativo. """
+    with pytest.raises(ValueError, match="n negativo"):
+        factorial(-1)
